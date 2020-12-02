@@ -4,8 +4,9 @@ drop table destinations;
 -- Create table dept_manager
 create table destinations (
 	dest_id serial primary key,
-	city varchar(50) not null,
-	state varchar(50) not null,
-	longitude double precision not null,
-	latitude double precision not null
+	address varchar(200) not null,
+	latitude double precision not null,
+	longitude double precision not null
 );
+
+select * from destinations;
