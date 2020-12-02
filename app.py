@@ -3,17 +3,17 @@ import os
 import math
 import psycopg2
 import numpy as np
-import matplotlib.pyplot as plt
-import yellowbrick 
+# import matplotlib.pyplot as plt
+# import yellowbrick 
 from sklearn.cluster import KMeans
-from yellowbrick.cluster import KElbowVisualizer
+# from yellowbrick.cluster import KElbowVisualizer
 from sklearn.metrics import silhouette_score 
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 import pandas as pd
-import random
+#import random
 
 # Database info
 database_url = f'postgres://wnjhouloendxny:b027f83c1f0723e6c2c0f515d8bcdcd126d8dbd84cfa0ce97a0826379797f553@ec2-54-152-40-168.compute-1.amazonaws.com:5432/d8207vdcs70hmd'
