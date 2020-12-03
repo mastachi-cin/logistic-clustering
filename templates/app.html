@@ -12,7 +12,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="index.html">Logistic clustering</a>
+        <a class="navbar-brand" href="/">Logistic clustering</a>
         <a class="btn btn-primary disabled" role="button">App</a>
     </nav>
 
@@ -21,10 +21,10 @@
       <form id = "input-form">
         <div class="row">
           <div class="col">
-            <label for="sz">1. Enter size</label>
-            <input class="form-control" id="size" type="text" placeholder="42" style="margin-bottom: 20px; text-align: center;">
+            <label for="sz">1. Enter number of destinations</label>
+            <input class="form-control" id="size" type="text" placeholder="100" style="margin-bottom: 20px; text-align: center;">
             <label for="sd">2. Enter seed</label>
-            <input class="form-control" id="seed" type="text" placeholder="10" style="text-align: center;">
+            <input class="form-control" id="seed" type="text" placeholder="42" style="text-align: center;">
           </div>
           <div class="col">
             <label for="cmax">3. Enter max cargo per vehicle</label>
@@ -38,9 +38,9 @@
       <hr>
     </div>
     <hr> 
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
-        <div class="col">
+        <div class="col" id="prueba">
           <div id="map-id">
           </div>
         </div>

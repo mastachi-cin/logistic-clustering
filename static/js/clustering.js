@@ -15,7 +15,7 @@ routifyBtn.on("click", function() {
 
   // Assign demo value if input size is empty
   if (inputSize == "") {
-    inputSize = 10;
+    inputSize = 100;
   }
 
   console.log(inputSize);
@@ -41,7 +41,7 @@ routifyBtn.on("click", function() {
 
   // Assign demo value if input size is empty
   if (inputCargomax == "") {
-    inputCargomax = 5;
+    inputCargomax = 6;
   }
 
   console.log(inputCargomax);
@@ -54,10 +54,14 @@ routifyBtn.on("click", function() {
 
   // Assign demo value if input size is empty
   if (inputVehicle == "") {
-    inputVehicle = 2;
+    inputVehicle = 20;
   }
 
   console.log(inputVehicle);
+
+  if (inputCargomax * inputVehicle < inputSize ) {
+    alert('If you want more accurate results, please keep in mind that the number of vehicles by their maximum cargo capacity shouldn´t be higher than the size of the sample')
+  }
 
   // Map routes
   mapRoutes(inputSize, inputSeed, inputCargomax, inputVehicle);
@@ -65,8 +69,29 @@ routifyBtn.on("click", function() {
 
 function mapRoutes(size, seed, cargomax, vehicules) {
 
+  d3.select("#prueba").html('<div id="map-id"></div>');
+
+  // Create the map object with options
+  var map = L.map("map-id", {
+    worldCopyJump: true,
+    center: [25.5091232, -100.2628439],
+    zoom: 11
+  });
+
+  // Create the tile layer that will be the background of our map
+  L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+    tileSize: 512,
+    maxZoom: 18,
+    zoomOffset: -1,
+    id: "streets-v11",
+    accessToken: API_KEY
+  }).addTo(map);
+
   // Perform a GET request to the URL
   var url = "/api/map/" + size + "/" + seed + "/" + cargomax + "/" + vehicules;
+  
+  var markers = [];
 
   d3.json(url, function(data) {
 
@@ -89,7 +114,7 @@ function mapRoutes(size, seed, cargomax, vehicules) {
 
 
       // Add circles to map
-      L.circleMarker([destData.latitude, destData.longitude], {
+      markers.push(L.circleMarker([destData.latitude, destData.longitude], {
         fillOpacity: 0.75,
         color: "black",
         weight: 1,
@@ -97,8 +122,12 @@ function mapRoutes(size, seed, cargomax, vehicules) {
         radius: 7, 
       }).bindPopup("<h3>Dest. ID:" + destData.dest_id + 
         "</h3> <hr> <h4>Address: " + destData.address + 
-        "</h4>").addTo(map);
+        "</h4>"));
     }
+
+    var markerLayer = L.layerGroup(markers);
+    markerLayer.addTo(map);
+
     // Add legend (don't forget to add the CSS from index.html)
     var legend = L.control({ position: "bottomright" });
     legend.onAdd = function() {
@@ -130,19 +159,4 @@ function mapRoutes(size, seed, cargomax, vehicules) {
   });
 }
 
-// Create the map object with options
-var map = L.map("map-id", {
-  worldCopyJump: true,
-  center: [25.6753609, -100.3470249],
-  zoom: 12
-});
 
-// Create the tile layer that will be the background of our map
-L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-  attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
-  tileSize: 512,
-  maxZoom: 18,
-  zoomOffset: -1,
-  id: "streets-v11",
-  accessToken: API_KEY
-}).addTo(map);
