@@ -67,24 +67,66 @@ function mapRoutes(size, seed, cargomax, vehicules) {
 
   // Perform a GET request to the URL
   var url = "/api/map/" + size + "/" + seed + "/" + cargomax + "/" + vehicules;
+
   d3.json(url, function(data) {
+
+    colors_ls = ['#ff0088','#ff80d5','#3db6f2','#eaf279','#91e673','#bf8f8f','#8c004b','#7f2200','#00734d','#434359','#401010','#1a1d33','#44ff00','#ff8080','#ce3df2','#e50000','#e5b073','#b0b386','#8c7723','#007780','#73396f','#004d3d','#402910','#ff0000','#ffbffb','#f2b63d','#e5003d','#d90000','#266399','#46758c','#770080','#66000e','#00334d','#402031','#ff8800','#f26100','#79f2ca','#3939e6','#7b6cd9','#994d4d','#698c73','#468020','#665e4d','#4d3c39','#303f40','#00ffaa','#c2f200','#79eaf2','#e59173','#8f8fbf','#997387','#7f4400','#392080','#56592d','#330040','#003307'];
+    var routes = [];
 
     for (var i = 0; i < data.length; i++) {
       var destData = data[i];
 
       console.log(destData);
 
+      if (i==0) {
+        routes.push(destData.Route);
+      }
+      else if (routes[routes.length-1]!=destData.Route) {
+        routes.push(destData.Route);
+      }
+      
+      color = colors_ls[destData.Route]
+
+
       // Add circles to map
       L.circleMarker([destData.latitude, destData.longitude], {
         fillOpacity: 0.75,
         color: "black",
         weight: 1,
-        fillColor: "blue",
+        fillColor: color,
         radius: 7, 
       }).bindPopup("<h3>Dest. ID:" + destData.dest_id + 
         "</h3> <hr> <h4>Address: " + destData.address + 
         "</h4>").addTo(map);
     }
+    // Add legend (don't forget to add the CSS from index.html)
+    var legend = L.control({ position: "bottomright" });
+    legend.onAdd = function() {
+    var div = L.DomUtil.create("div", "info legend");
+
+    var limits = routes;
+    var colors = colors_ls.slice(0,routes.length);
+    var labels = [];
+
+    // Add min & max
+    var legendInfo = "<h1></h1>" +
+        "<div class=\"labels\">" +
+        "<div class=\"min\">" + limits[0] + "</div>" +
+        "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
+        "</div>";
+
+    div.innerHTML = legendInfo;
+
+    limits.forEach(function(limit, index) {
+        labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
+    });
+
+    div.innerHTML += "<ul>" + labels.join("") + "</ul>";    
+    return div;
+    };
+
+    // Adding legend to the map
+    legend.addTo(map);
   });
 }
 
@@ -92,7 +134,7 @@ function mapRoutes(size, seed, cargomax, vehicules) {
 var map = L.map("map-id", {
   worldCopyJump: true,
   center: [25.6753609, -100.3470249],
-  zoom: 11
+  zoom: 12
 });
 
 // Create the tile layer that will be the background of our map
