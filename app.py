@@ -3,10 +3,7 @@ import os
 import math
 import psycopg2
 import numpy as np
-# import matplotlib.pyplot as plt
-# import yellowbrick 
 from sklearn.cluster import KMeans
-# from yellowbrick.cluster import KElbowVisualizer
 from sklearn.metrics import silhouette_score 
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base

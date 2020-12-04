@@ -60,7 +60,7 @@ routifyBtn.on("click", function() {
   console.log(inputVehicle);
 
   if (inputCargomax * inputVehicle < inputSize ) {
-    alert('If you want more accurate results, please keep in mind that the number of vehicles by their maximum cargo capacity shouldn´t be higher than the size of the sample')
+    alert('If you want more accurate results, please keep in mind that the number of vehicles by their maximum cargo capacity shouldn´t be higher than the number of destinations')
   }
 
   // Map routes
@@ -112,7 +112,6 @@ function mapRoutes(size, seed, cargomax, vehicules) {
       
       color = colors_ls[destData.Route]
 
-
       // Add circles to map
       markers.push(L.circleMarker([destData.latitude, destData.longitude], {
         fillOpacity: 0.75,
@@ -120,15 +119,16 @@ function mapRoutes(size, seed, cargomax, vehicules) {
         weight: 1,
         fillColor: color,
         radius: 7, 
-      }).bindPopup("<h3>Dest. ID:" + destData.dest_id + 
-        "</h3> <hr> <h4>Address: " + destData.address + 
-        "</h4>"));
+      }).bindPopup('<h6 style="font-family:arial; font-weight: bold;"> Route: ' + destData.Route + 
+        '</h6> <hr> <h6 style="font-family:arial;">Dest. ID: ' + destData.dest_id + 
+        '</h6> <h6 style="font-family:arial;">Address: ' + destData.address + 
+        "</h6>"));
     }
 
     var markerLayer = L.layerGroup(markers);
     markerLayer.addTo(map);
 
-    // Add legend (don't forget to add the CSS from index.html)
+    // Add legend
     var legend = L.control({ position: "bottomright" });
     legend.onAdd = function() {
     var div = L.DomUtil.create("div", "info legend");
@@ -136,19 +136,20 @@ function mapRoutes(size, seed, cargomax, vehicules) {
     var limits = routes;
     var colors = colors_ls.slice(0,routes.length);
     var labels = [];
+    var routes_lbls = [];
 
-    // Add min & max
+    limits.forEach(function(limit, index) {
+      labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
+      routes_lbls.push("<li>" + limits[index] + "</li>");
+    });
+
+    // Add routes labels
     var legendInfo = "<h1></h1>" +
         "<div class=\"labels\">" +
-        "<div class=\"min\">" + limits[0] + "</div>" +
-        "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
+        "<ul>" + routes_lbls.join("") + "</ul>" +
         "</div>";
 
     div.innerHTML = legendInfo;
-
-    limits.forEach(function(limit, index) {
-        labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
-    });
 
     div.innerHTML += "<ul>" + labels.join("") + "</ul>";    
     return div;
