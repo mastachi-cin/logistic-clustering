@@ -101,7 +101,7 @@ function mapRoutes(size, seed, cargomax, vehicules) {
     for (var i = 0; i < data.length; i++) {
       var destData = data[i];
 
-      console.log(destData);
+      // console.log(destData);
 
       if (i==0) {
         routes.push(destData.Route);

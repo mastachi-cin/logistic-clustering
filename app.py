@@ -73,6 +73,7 @@ def mapping(size, seed, cargomax, vehicles):
     destinations_df = pd.DataFrame(dest_ls)
 
     # Sample for project purpose
+    size = min(size,1715)
     sample = destinations_df.sample(n= size, axis=0, random_state = seed)
 
     # Create Lat and Lon Array
@@ -100,16 +101,16 @@ def mapping(size, seed, cargomax, vehicles):
 
     # K Score logic
     minK = math.ceil(max(len(sample)/cargomax,2))
-    maxK = min(50,len(sample))
+    maxK = min(vehicles,len(sample))
     Ks = range(minK, maxK)
-    km = [KMeans(n_clusters=i) for i in Ks]
-    score = [silhouette_score(X,km[i].fit(X).predict(X)) for i in range(len(km))]
+    km = [KMeans(n_clusters=i, random_state = seed) for i in Ks]
+    score = [silhouette_score(X,km[i].fit(X).predict(X),random_state=seed) for i in range(len(km))]
     maxscore = np.argmax(score)
     index = min(np.argmax(score) + minK,vehicles)
     Ks, score, maxscore, index
 
     #Kmeans, Fitting and Predicting Clusters
-    kmeans = KMeans(n_clusters=index)
+    kmeans = KMeans(n_clusters=index, random_state = seed)
     kmeans.fit(X)
     predicted_clusters = kmeans.predict(X)
 
