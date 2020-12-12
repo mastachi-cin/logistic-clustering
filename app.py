@@ -102,12 +102,14 @@ def mapping(size, seed, cargomax, vehicles):
     # K Score logic
     minK = math.ceil(max(len(sample)/cargomax,2))
     maxK = min(vehicles,len(sample))
-    Ks = range(minK, maxK)
-    km = [KMeans(n_clusters=i, random_state = seed) for i in Ks]
-    score = [silhouette_score(X,km[i].fit(X).predict(X),random_state=seed) for i in range(len(km))]
-    maxscore = np.argmax(score)
-    index = min(np.argmax(score) + minK,vehicles)
-    Ks, score, maxscore, index
+    if minK != maxK:
+        Ks = range(minK, maxK)
+        km = [KMeans(n_clusters=i, random_state = seed) for i in Ks]
+        score = [silhouette_score(X,km[i].fit(X).predict(X),random_state=seed) for i in range(len(km))]
+        maxscore = np.argmax(score)
+        index = min(np.argmax(score) + minK,vehicles)
+    else:
+        index = minK
 
     #Kmeans, Fitting and Predicting Clusters
     kmeans = KMeans(n_clusters=index, random_state = seed)
