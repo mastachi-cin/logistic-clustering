@@ -1,7 +1,7 @@
 # Route Automation with Clustering
 The app provide a practical and low cost solution for optimizing routes to any last mile delivery company using Machine Learning, based on total deliveries, available vehicles and cargo capacity.
 
-## Description:
+## Description
 
 1. Clustering.js
 
@@ -15,18 +15,19 @@ Deploy the Flask App to Heroku
   * Use the provided schema.sql to create the tables.
   * Use the option Import/Export of the table to import the data from the data.csv file
 
-Heroku Deployment
-
-[https://logistic-clustering.herokuapp.com]
-
 3. Flask API
 
 Use app.py to serve the data needed for the map
 
-  * Test the route in the browser: /api/map/<size>/<seed>/<cargomax>/<vehicles>
+  * Test the route in the browser: 
+  https://logistic-clustering.herokuapp.com/api/map/<size>/<seed>/<cargomax>/<vehicles>
   * The route was created to extract the destinations from the DB and implement the   k-means logic, it creates, fits the model and predicts the clusters.
 
-## Screenshots:
+4. Heroku Deployment
+
+[https://logistic-clustering.herokuapp.com]
+
+## Screenshots
 
 ### Home page
 
@@ -42,7 +43,7 @@ You will get the optimized routes to follow
 
 ![App page](static/images/map_page.png)
 
-## Team members:
+## Team members
 
 1. Cristobal Bugeda
 2. Eduardo Garza
