@@ -19,7 +19,8 @@ Deploy the Flask App to Heroku
 
 Use app.py to serve the data needed for the map
 
-  * Test the route in the browser: https://<span></span>logistic-clustering.herokuapp.com/api/map/size/seed/cargomax/vehicles
+  * Test the route in the browser: 
+  https://<span></span>logistic-clustering.herokuapp.com/api/map/size/seed/cargomax/vehicles
   * The route was created to extract the destinations from the DB and implement the   k-means logic, it creates, fits the model and predicts the clusters.
 
 4. Heroku Deployment
