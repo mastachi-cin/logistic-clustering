@@ -43,7 +43,7 @@ Enter the number of destinations, the maximum cargo per vehicle, the total numbe
 
 You will get the optimized routes to follow 
 
-![App page](static/images/map_page.png)
+![Map page](static/images/map_page.png)
 
 ## Team members
 
